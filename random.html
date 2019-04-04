@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 98vw;
+            height: 95vh;
+        }
+        td {
+            border: 3px solid black;
+            text-align: center
+        }
+    </style>
+    <script>
+        var selectRandom = function () {
+            var table = document.getElementById("printHere");
+            var count = 0;
+            for (var i = 0; i < table.rows.length; i++) {
+                for (var j = 0; j < table.rows[i].cells.length; j++) {
+                    var cat = Math.floor((Math.random() * 10) + 1);
+                    var random2 = Math.floor((Math.random() * 10) + 1);
+                    var cell = "<h3>";
+                    if (cat == 1 || cat == 2) { // SPECIAL MOB
+                        cell += "special mob, ";
+                        cell += specialMob();
+                    } else if (cat >= 3 && cat <= 7) { // RESOURCE NODE
+                        cell += "Resource node";
+                        if (random2 >= 1 && random2 <= 7) {
+                            cell += ", Crafting resource";
+                            var isLiving = Math.floor((Math.random() * 2) + 1);
+                            if (isLiving == 1) {
+                                cell += ", living";
+                            } else {
+                                cell += ", affixed";
+                            }
+                        } else if (random2 == 8 || random2 == 9) {
+                            cell += ", Cache";
+                            var isGuarded = Math.floor((Math.random() * 2) + 1);
+                            if (isGuarded == 1) {
+                                cell += ", guarded, " + specialMob();
+                            }
+                            else {
+                                cell += ", not guarded";
+                            }
+                        } else {
+                            cell += ", Rare item cache";
+                            var isGuarded = Math.floor((Math.random() * 10) + 1);
+                            if (isGuarded >= 1 && isGuarded <= 5) {
+                                cell += ", guarded, " + specialMob();
+                            }
+                            else {
+                                cell += ", not guarded";
+                            }
+                        }
+                    } else if (cat >= 7 && cat <= 9) { // POINT OF INTEREST
+                        cell += "Point of interest";
+                        var type = Math.floor((Math.random() * 10) + 1);
+                        if (type <= 5) {
+                            cell += ", natural";
+                        } else {
+                            cell += ", manmade";
+                        }
+                    } else if (cat == 10) { // QUEST
+                        cell += "Quest" + questType();
+                    }
+                    cell += "</h3>"
+                    document.getElementById("cell" + count).innerHTML = cell;
+                    count++;
+                }
+            }
+        }
+
+        var specialMob = function () {
+            var random = Math.floor((Math.random() * 10) + 1);
+            // var array = ["silver mob", "rare named mob", "resource mob", "time dependent mob", "boss mob"];
+            if (random == 1) {
+                return "silver mob";
+            }
+            else if (random >= 2 && random <= 5) {
+                return "rare named mob";
+            }
+            else if (random >= 6 && random <= 9) {
+                return "time dependent mob";
+            }
+            else if (random == 10) {
+                return "boss mob";
+            }
+        }
+
+        var questType = function () {
+            var random = Math.floor((Math.random() * 10) + 1);
+            if (random == 1) {
+                return ", Chain";
+            } else if (random == 2) {
+                return ", Kill quantity";
+            } else if (random == 3) {
+                return ", Kill named mob";
+            } else if (random == 4) {
+                return ", Delivery";
+            } else if (random == 5) {
+                return ", Collect specific item";
+            } else if (random == 6) {
+                return ", Collect quantity of item";
+            } else if (random == 7) {
+                return ", Collect item from kill";
+            } else if (random == 8) {
+                return ", Collect quantity of item from kill";
+            } else if (random == 9) {
+                return ", Locate/Interact specific fixed object";
+            } else {
+                return ", Locate/interact specific fixed object";
+            }
+        }
+    </script>
+</head>
+<body>
+    <table id="printHere">
+        <tr id="row0">
+            <td id="cell0"></td>
+            <td id="cell1"></td>
+            <td id="cell2"></td>
+        </tr>
+        <tr id="row1">
+            <td id="cell3"></td>
+            <td id="cell4"></td>
+            <td id="cell5"></td>
+        </tr>
+        <tr id="row2">
+            <td id="cell6"></td>
+            <td id="cell7"></td>
+            <td id="cell8"></td>
+        </tr>
+        <tr id="row3">
+            <td id="cell9"></td>
+            <td id="cell10"></td>
+            <td id="cell11"></td>
+        </tr>
+        <tr id="row4">
+            <td id="cell12"></td>
+            <td id="cell13"></td>
+            <td id="cell14"></td>
+        </tr>
+    </table>
+    <button type="button" id="rando" onclick="selectRandom()">Rando, bud</button>
+</body>
+</html>
