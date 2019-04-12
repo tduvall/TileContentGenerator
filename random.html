@@ -13,7 +13,7 @@
             text-align: center
         }
         tr:nth-child(even) {
-            background-color: lightblue;
+            background-color: rgb(201, 221, 228);
         }
     </style>
     <script>
@@ -125,6 +125,7 @@
         var submitForm = function () {
             /* Hides the form elements */
             document.getElementById("select").style.display = "none";
+            document.getElementById("rando").style.display = "inline-block";
 
             /* Grabs the values */
             var select = document.getElementById("select");
@@ -134,7 +135,8 @@
             var table = document.createElement("table");
             table.setAttribute("id", "printHere");
             var tbody = document.createElement("tbody");
-            var count = 0;
+            var count = 0; // Increments with every pass to generate a unique id for each cell
+            /* Iterates through every row, every cell to generate tbody, then append it to table */
             for (var i = 0; i < r; i++) {
                 var tr = document.createElement("tr");
                 tr.setAttribute("id", "row" + i);
@@ -161,8 +163,6 @@
         <br/>
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
-    <div id="table" style="display: none">
-        <button type="button" id="rando" onclick="selectRandom()">Rando, bud</button>
-    </div>
+    <button type="button" id="rando" style="display: none" onclick="selectRandom()">Randomize Table</button>
 </body>
 </html>
