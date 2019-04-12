@@ -12,8 +12,13 @@
             border: 3px solid black;
             text-align: center
         }
+        tr:nth-child(even) {
+            background-color: lightblue;
+        }
     </style>
     <script>
+        /* This is the main function. It finds the table with id='printHere',
+         then uses random values to generate content for each table cell. */
         var selectRandom = function () {
             var table = document.getElementById("printHere");
             var count = 0;
@@ -21,7 +26,7 @@
                 for (var j = 0; j < table.rows[i].cells.length; j++) {
                     var cat = Math.floor((Math.random() * 10) + 1);
                     var random2 = Math.floor((Math.random() * 10) + 1);
-                    var cell = "<h3>";
+                    var cell = "<h5>";
                     if (cat == 1 || cat == 2) { // SPECIAL MOB
                         cell += "special mob, ";
                         cell += specialMob();
@@ -65,7 +70,7 @@
                     } else if (cat == 10) { // QUEST
                         cell += "Quest" + questType();
                     }
-                    cell += "</h3>"
+                    cell += "</h5>"
                     document.getElementById("cell" + count).innerHTML = cell;
                     count++;
                 }
@@ -74,7 +79,6 @@
 
         var specialMob = function () {
             var random = Math.floor((Math.random() * 10) + 1);
-            // var array = ["silver mob", "rare named mob", "resource mob", "time dependent mob", "boss mob"];
             if (random == 1) {
                 return "silver mob";
             }
@@ -90,6 +94,9 @@
         }
 
         var questType = function () {
+            /* The random function selects a random decimal value between 0 (inclusive) and 1 (exclusive).
+             The number you multiply it by will essentially be the max number. Adding to the number will 
+             increase the minimum value. Therefore, the below statement will yield an integer between 1 and 10. */
             var random = Math.floor((Math.random() * 10) + 1);
             if (random == 1) {
                 return ", Chain";
@@ -113,36 +120,49 @@
                 return ", Locate/interact specific fixed object";
             }
         }
+        
+        /* This function gets the value of the rows and columns, then uses that to build a table */
+        var submitForm = function () {
+            /* Hides the form elements */
+            document.getElementById("select").style.display = "none";
+
+            /* Grabs the values */
+            var select = document.getElementById("select");
+            var r = select.elements.namedItem("r").value;
+            var c = select.elements.namedItem("c").value;
+
+            var table = document.createElement("table");
+            table.setAttribute("id", "printHere");
+            var tbody = document.createElement("tbody");
+            var count = 0;
+            for (var i = 0; i < r; i++) {
+                var tr = document.createElement("tr");
+                tr.setAttribute("id", "row" + i);
+                for (var j = 0; j < c; j++) {
+                    var td = document.createElement("td");
+                    td.setAttribute("id", "cell" + count);
+                    tr.appendChild(td);
+                    count++;
+                }
+                tbody.appendChild(tr);
+            }
+            table.appendChild(tbody);
+            document.getElementsByTagName("body")[0].appendChild(table);
+        }
     </script>
 </head>
 <body>
-    <table id="printHere">
-        <tr id="row0">
-            <td id="cell0"></td>
-            <td id="cell1"></td>
-            <td id="cell2"></td>
-        </tr>
-        <tr id="row1">
-            <td id="cell3"></td>
-            <td id="cell4"></td>
-            <td id="cell5"></td>
-        </tr>
-        <tr id="row2">
-            <td id="cell6"></td>
-            <td id="cell7"></td>
-            <td id="cell8"></td>
-        </tr>
-        <tr id="row3">
-            <td id="cell9"></td>
-            <td id="cell10"></td>
-            <td id="cell11"></td>
-        </tr>
-        <tr id="row4">
-            <td id="cell12"></td>
-            <td id="cell13"></td>
-            <td id="cell14"></td>
-        </tr>
-    </table>
-    <button type="button" id="rando" onclick="selectRandom()">Rando, bud</button>
+    <form id="select">
+        <label for="r">Rows:</label><br/>
+        <input type="text" name="r">
+        <br/>
+        <label for="c">Columns:</label><br/>
+        <input type="text" name="c">
+        <br/>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+    <div id="table" style="display: none">
+        <button type="button" id="rando" onclick="selectRandom()">Rando, bud</button>
+    </div>
 </body>
 </html>
